@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Studies</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #03050E;
+      --teal:       #00CEAB;
+      --violet:     #8B7FFF;
+      --text:       #EEF2FF;
+      --sub:        #5A7698;
+      --glass-bg:   rgba(255,255,255,0.03);
+      --glass-bdr:  rgba(255,255,255,0.07);
+      --glass-hov:  rgba(255,255,255,0.055);
+      --ff-display: 'Playfair Display', Georgia, serif;
+      --ff-body:    'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ff-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Galaxy canvas — lowest layer ── */
+    #cosmos {
+      position: fixed;
+      inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── CSS nebula orbs — above canvas ── */
+    .orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(110px);
+    }
+    .orb-a {
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(0,206,171,0.16), transparent 68%);
+      top: -170px; left: -150px;
+      animation: floatA 26s ease-in-out infinite alternate;
+    }
+    .orb-b {
+      width: 460px; height: 460px;
+      background: radial-gradient(circle, rgba(139,127,255,0.14), transparent 68%);
+      bottom: -90px; right: -120px;
+      animation: floatB 22s ease-in-out infinite alternate;
+    }
+    @keyframes floatA { to { transform: translate(60px, 95px) scale(1.1); } }
+    @keyframes floatB { to { transform: translate(-48px, -72px) scale(1.08); } }
+
+    /* ── Section ── */
+    .cs {
+      position: relative;
+      z-index: 2;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 110px 32px 120px;
+    }
+
+    /* ── Header ── */
+    .cs-header { text-align: center; margin-bottom: 80px; }
+    .cs-eyebrow {
+      display: inline-block;
+      font-size: 10.5px; letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--teal); font-weight: 400;
+      margin-bottom: 22px; opacity: 0.85;
+    }
+    .cs-h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(44px, 7vw, 68px);
+      font-weight: 700; line-height: 1.04; letter-spacing: -1.5px;
+    }
+    .cs-h2 em { font-style: italic; color: var(--teal); }
+    .cs-desc {
+      margin-top: 22px; font-size: 14px; color: var(--sub);
+      max-width: 340px; margin-inline: auto;
+      font-weight: 300; line-height: 1.9;
+    }
+
+    /* ── Cards ── */
+    .cs-grid { display: flex; flex-direction: column; gap: 18px; margin-bottom: 28px; }
+
+    .cs-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 20px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      overflow: hidden;
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1);
+    }
+    .cs-card.in-view { opacity: 1; transform: translateY(0); }
+    .cs-card:hover {
+      background: var(--glass-hov);
+      border-color: rgba(0,206,171,0.22);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.09),
+                  0 28px 72px rgba(0,0,0,0.55),
+                  0 0 0 1px rgba(0,206,171,0.05);
+      transform: translateY(-5px);
+      transition: all .38s cubic-bezier(.22,1,.36,1);
+    }
+    .cs-card.in-view:hover { opacity: 1; }
+
+    .cs-card-head {
+      padding: 28px 36px 22px;
+      border-bottom: 1px solid var(--glass-bdr);
+      display: flex; align-items: baseline; gap: 18px;
+    }
+    .cs-num { font-size: 10px; letter-spacing: 2px; color: var(--teal); font-weight: 500; opacity: .6; flex-shrink: 0; }
+    .cs-title { font-family: var(--ff-display); font-size: clamp(18px,2.5vw,22px); font-weight: 700; line-height: 1.3; }
+
+    .cs-body { display: grid; grid-template-columns: 1fr 1px 1fr; }
+    .cs-sep { background: var(--glass-bdr); margin: 26px 0; }
+    .cs-col { padding: 26px 36px 30px; }
+    .cs-col-l { padding-right: 28px; }
+    .cs-col-r { padding-left: 28px; }
+    .cs-row + .cs-row { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--glass-bdr); }
+
+    .cs-label { font-size: 9.5px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sub); font-weight: 500; margin-bottom: 9px; opacity: .72; }
+    .cs-text  { font-size: 13px; color: var(--sub); line-height: 1.85; font-weight: 300; }
+
+    .cs-tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .cs-badge {
+      font-size: 10.5px; padding: 3px 11px 4px;
+      border-radius: 100px;
+      border: 1px solid rgba(139,127,255,0.22);
+      background: rgba(139,127,255,0.07);
+      color: rgba(175,168,255,0.85);
+      font-weight: 400; transition: all .2s;
+    }
+    .cs-card:hover .cs-badge { border-color: rgba(139,127,255,0.36); background: rgba(139,127,255,0.13); }
+
+    .cs-impact { list-style: none; margin-top: 10px; }
+    .cs-impact li { font-size: 13px; color: var(--sub); padding: 4px 0 4px 16px; position: relative; line-height: 1.65; font-weight: 300; }
+    .cs-impact li::before { content: ''; position: absolute; left: 0; top: 12px; width: 5px; height: 1px; background: var(--teal); opacity: .7; }
+
+    /* ── Methodology ── */
+    .cs-method {
+      background: var(--glass-bg);
+      backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--glass-bdr); border-radius: 20px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      padding: 34px 36px 36px;
+    }
+    .cs-method-eye { font-size: 9.5px; letter-spacing: 3px; text-transform: uppercase; color: var(--teal); font-weight: 500; opacity: .65; margin-bottom: 8px; }
+    .cs-method-title { font-family: var(--ff-display); font-size: clamp(19px,2.5vw,24px); font-weight: 700; margin-bottom: 24px; }
+    .cs-steps { display: flex; flex-wrap: wrap; gap: 10px; }
+    .cs-step {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 10px 18px; border: 1px solid var(--glass-bdr);
+      border-radius: 100px; background: rgba(255,255,255,0.018);
+      cursor: default; transition: all .22s;
+    }
+    .cs-step:hover { border-color: rgba(0,206,171,0.28); background: rgba(0,206,171,0.05); }
+    .cs-step-n { font-size: 9px; letter-spacing: 1.5px; color: var(--teal); font-weight: 500; opacity: .8; }
+    .cs-step-t { font-size: 12.5px; color: var(--sub); font-weight: 400; }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      .cs { padding: 80px 22px 90px; }
+      .cs-card-head { padding: 24px 26px 20px; flex-direction: column; gap: 3px; }
+      .cs-body { grid-template-columns: 1fr; }
+      .cs-sep { display: none; }
+      .cs-col { padding: 22px 26px; }
+      .cs-col-l { border-bottom: 1px solid var(--glass-bdr); padding-bottom: 22px; }
+      .cs-col-r { padding-top: 22px; }
+      .cs-method { padding: 28px 24px 30px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .orb { animation: none !important; }
+      .cs-card { opacity: 1; transform: none; transition: none; }
+      #cosmos { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Layer 0: Galaxy canvas -->
+<canvas id="cosmos" aria-hidden="true"></canvas>
+
+<!-- Layer 1: Large CSS nebula blobs -->
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+</div>
+
+<!-- Layer 2: Content -->
+<section class="cs" id="case-studies">
+
+  <header class="cs-header">
+    <span class="cs-eyebrow">Selected Work</span>
+    <h2 class="cs-h2">Case <em>Studies</em></h2>
+    <p class="cs-desc">Turning fragmented data into automated dashboards that give teams clarity and speed.</p>
+  </header>
+
+  <div class="cs-grid">
+
+    <article class="cs-card">
+      <div class="cs-card-head">
+        <span class="cs-num">01</span>
+        <h3 class="cs-title">Telegram Analytics Dashboard</h3>
+      </div>
+      <div class="cs-body">
+        <div class="cs-col cs-col-l">
+          <div class="cs-row">
+            <p class="cs-label">Challenge</p>
+            <p class="cs-text">Managing 140+ Telegram channels required daily monitoring with no centralized view — reporting was entirely manual and slow.</p>
+          </div>
+          <div class="cs-row">
+            <p class="cs-label">Approach</p>
+            <p class="cs-text">Automated the full pipeline with Apps Script & Telegram Bot APIs, feeding a live Looker Studio dashboard for every channel at once.</p>
+          </div>
+        </div>
+        <div class="cs-sep" aria-hidden="true"></div>
+        <div class="cs-col cs-col-r">
+          <div class="cs-row">
+            <p class="cs-label">Stack</p>
+            <div class="cs-tools">
+              <span class="cs-badge">Looker Studio</span>
+              <span class="cs-badge">Apps Script</span>
+              <span class="cs-badge">Telegram Bot API</span>
+              <span class="cs-badge">Google Sheets</span>
+            </div>
+          </div>
+          <div class="cs-row">
+            <p class="cs-label">Impact</p>
+            <ul class="cs-impact">
+              <li>Automated reporting across 140+ channels</li>
+              <li>Real-time stakeholder visibility</li>
+              <li>Eliminated manual overhead entirely</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="cs-card">
+      <div class="cs-card-head">
+        <span class="cs-num">02</span>
+        <h3 class="cs-title">Sales Performance Dashboard</h3>
+      </div>
+      <div class="cs-body">
+        <div class="cs-col cs-col-l">
+          <div class="cs-row">
+            <p class="cs-label">Challenge</p>
+            <p class="cs-text">Revenue and target data scattered across multiple sources — leadership had no reliable, centralized view for decision-making.</p>
+          </div>
+          <div class="cs-row">
+            <p class="cs-label">Approach</p>
+            <p class="cs-text">Built an interactive dashboard consolidating KPIs and revenue trends with automated workflows to remove manual data entry.</p>
+          </div>
+        </div>
+        <div class="cs-sep" aria-hidden="true"></div>
+        <div class="cs-col cs-col-r">
+          <div class="cs-row">
+            <p class="cs-label">Stack</p>
+            <div class="cs-tools">
+              <span class="cs-badge">Looker Studio</span>
+              <span class="cs-badge">Google Sheets</span>
+              <span class="cs-badge">Excel</span>
+              <span class="cs-badge">Data Transformation</span>
+            </div>
+          </div>
+          <div class="cs-row">
+            <p class="cs-label">Impact</p>
+            <ul class="cs-impact">
+              <li>Faster performance insights for leadership</li>
+              <li>Visibility across all stakeholder levels</li>
+              <li>Zero manual reporting dependency</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="cs-card">
+      <div class="cs-card-head">
+        <span class="cs-num">03</span>
+        <h3 class="cs-title">Travel Budget Monitoring Dashboard</h3>
+      </div>
+      <div class="cs-body">
+        <div class="cs-col cs-col-l">
+          <div class="cs-row">
+            <p class="cs-label">Challenge</p>
+            <p class="cs-text">Cross-department travel budgets were fragmented and reconciled manually — timely financial oversight was nearly impossible.</p>
+          </div>
+          <div class="cs-row">
+            <p class="cs-label">Approach</p>
+            <p class="cs-text">Centralized expense tracking, utilization rates, and spending trends into one dashboard with fully automated reporting.</p>
+          </div>
+        </div>
+        <div class="cs-sep" aria-hidden="true"></div>
+        <div class="cs-col cs-col-r">
+          <div class="cs-row">
+            <p class="cs-label">Stack</p>
+            <div class="cs-tools">
+              <span class="cs-badge">Looker Studio</span>
+              <span class="cs-badge">Google Sheets</span>
+              <span class="cs-badge">Excel</span>
+              <span class="cs-badge">Reporting Automation</span>
+            </div>
+          </div>
+          <div class="cs-row">
+            <p class="cs-label">Impact</p>
+            <ul class="cs-impact">
+              <li>Full budget visibility across departments</li>
+              <li>Reduced reconciliation effort significantly</li>
+              <li>Improved financial planning accuracy</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="cs-method">
+    <p class="cs-method-eye">Methodology</p>
+    <h3 class="cs-method-title">My Approach to Every Project</h3>
+    <div class="cs-steps">
+      <div class="cs-step"><span class="cs-step-n">01</span><span class="cs-step-t">Understand the Problem</span></div>
+      <div class="cs-step"><span class="cs-step-n">02</span><span class="cs-step-t">Identify KPIs</span></div>
+      <div class="cs-step"><span class="cs-step-n">03</span><span class="cs-step-t">Gather &amp; Clean Data</span></div>
+      <div class="cs-step"><span class="cs-step-n">04</span><span class="cs-step-t">Automate Reporting</span></div>
+      <div class="cs-step"><span class="cs-step-n">05</span><span class="cs-step-t">Design Dashboards</span></div>
+      <div class="cs-step"><span class="cs-step-n">06</span><span class="cs-step-t">Deliver Insights</span></div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+/* ================================================================
+   GALAXY RENDERER
+   Layers (back → front):
+   1. Milky Way band glow  — soft diagonal luminous haze
+   2. Nebula colour patches — radial blobs tinted rose/teal/blue
+   3. Band stars            — dense Gaussian cluster along the band
+   4. Background stars      — scattered field, soft twinkle
+   5. Bright stars          — halos + optional diffraction spikes
+   6. Shooting star          — rare streak event
+================================================================ */
+
+const cvs = document.getElementById('cosmos');
+const cx  = cvs.getContext('2d');
+let W, H;
+
+/* ── Tunables ── */
+const BAND_ANGLE = -0.22;                     // radians — diagonal tilt
+const cosB = Math.cos(BAND_ANGLE);
+const sinB = Math.sin(BAND_ANGLE);
+
+/* ── Star stores ── */
+let bgStars = [], bandStars = [], brightStars = [];
+
+/* ── Shooting star state ── */
+let shooter = null, nextShot = 0;
+
+/* ── Box-Muller gaussian ── */
+function gauss() {
+  let u, v;
+  do { u = Math.random(); } while (!u);
+  do { v = Math.random(); } while (!v);
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+/* ── Colour pickers ── */
+function pickBandColor() {
+  const r = Math.random();
+  if (r < 0.28) return '#b0c8ff';  // blue-white
+  if (r < 0.46) return '#d0b8ff';  // violet-tinged
+  if (r < 0.56) return '#ffd4c0';  // warm yellow
+  return '#dde8ff';
+}
+function pickBgColor() {
+  const r = Math.random();
+  if (r < 0.12) return '#aaceff';
+  if (r < 0.22) return '#ffddaa';
+  return '#e8eeff';
+}
+
+/* ── Build all stars on resize ── */
+function buildStars() {
+  bgStars    = [];
+  bandStars  = [];
+  brightStars= [];
+
+  const bCX = W * 0.5, bCY = H * 0.42;
+  const sigma   = H * 0.19;
+  const bandLen = Math.hypot(W, H) * 1.65;
+
+  /* Background scatter */
+  const N = Math.min(260, (W * H / 6200) | 0);
+  for (let i = 0; i < N; i++) {
+    bgStars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: 0.22 + Math.random() * 1.0,
+      base: 0.10 + Math.random() * 0.50,
+      ph: Math.random() * 6.28,
+      sp: 0.002 + Math.random() * 0.007,
+      col: pickBgColor()
+    });
+  }
+
+  /* Milky Way band — Gaussian perpendicular spread */
+  const M = Math.min(720, (W * H / 2100) | 0);
+  for (let i = 0; i < M; i++) {
+    const along = (Math.random() - 0.5) * bandLen;
+    const perp  = gauss() * sigma;
+    const dens  = Math.exp(-(perp * perp) / (2 * sigma * sigma * 0.28));
+    bandStars.push({
+      x: bCX + cosB * along - sinB * perp,
+      y: bCY + sinB * along + cosB * perp,
+      r: Math.random() * 0.85,
+      base: dens * 0.40,
+      ph: Math.random() * 6.28,
+      sp: 0.001 + Math.random() * 0.004,
+      col: pickBandColor()
+    });
+  }
+
+  /* Bright highlights */
+  for (let i = 0; i < 24; i++) {
+    brightStars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: 1.2 + Math.random() * 1.8,
+      base: 0.45 + Math.random() * 0.55,
+      ph: Math.random() * 6.28,
+      sp: 0.003 + Math.random() * 0.006,
+      col: Math.random() < 0.3 ? '#b8d4ff' : Math.random() < 0.2 ? '#ffddb8' : '#ffffff',
+      spike: Math.random() > 0.45
+    });
+  }
+}
+
+function resize() {
+  W = cvs.width  = window.innerWidth;
+  H = cvs.height = window.innerHeight;
+  buildStars();
+}
+
+/* ── Render ── */
+let T = 0;
+
+function frame() {
+  requestAnimationFrame(frame);
+  cx.clearRect(0, 0, W, H);
+  T += 0.016;
+
+  const bCX = W * 0.5, bCY = H * 0.42;
+
+  /* 1 ── Milky Way band glow */
+  cx.save();
+  cx.translate(bCX, bCY);
+  cx.rotate(BAND_ANGLE);
+  const hw = H * 0.30, hl = Math.hypot(W, H) * 0.96;
+  const bandGrd = cx.createLinearGradient(0, -hw, 0, hw);
+  bandGrd.addColorStop(0,    'rgba(0,0,0,0)');
+  bandGrd.addColorStop(0.22, 'rgba(90,115,230,0.032)');
+  bandGrd.addColorStop(0.5,  'rgba(140,165,255,0.072)');
+  bandGrd.addColorStop(0.78, 'rgba(90,115,230,0.032)');
+  bandGrd.addColorStop(1,    'rgba(0,0,0,0)');
+  cx.fillStyle = bandGrd;
+  cx.fillRect(-hl, -hw, hl * 2, hw * 2);
+  cx.restore();
+
+  /* 2 ── Nebula colour patches */
+  const L = Math.hypot(W, H) * 1.4;
+  const patches = [
+    { t:-0.52, p:  25, r:H*0.19, rgb:[70,90,220],  a:0.058 },  // far blue
+    { t:-0.22, p: -15, r:H*0.17, rgb:[100,75,210],  a:0.065 },  // violet arm
+    { t:-0.02, p:   8, r:H*0.24, rgb:[130,100,220], a:0.095, ph:1.2 }, // galactic core
+    { t: 0.20, p: -18, r:H*0.17, rgb:[50,130,195],  a:0.055 },  // blue-green arm
+    { t: 0.50, p:  12, r:H*0.15, rgb:[70,90,215],   a:0.050 },  // far edge
+    { t:-0.28, p:  95, r:H*0.11, rgb:[210,65,125],  a:0.040, ph:2.0 }, // rose nebula
+    { t: 0.22, p: -88, r:H*0.10, rgb:[0,185,150],   a:0.038, ph:3.5 }, // teal cluster
+    { t:-0.44, p:-100, r:H*0.09, rgb:[160,75,200],  a:0.032, ph:0.7 }, // violet wisp
+  ];
+  for (const p of patches) {
+    const pulse = p.ph !== undefined
+      ? 0.78 + 0.22 * Math.sin(T * 0.12 + p.ph)
+      : 1;
+    const px = bCX + cosB * p.t * L - sinB * p.p;
+    const py = bCY + sinB * p.t * L + cosB * p.p;
+    const [r,g,b] = p.rgb;
+    const grd = cx.createRadialGradient(px, py, 0, px, py, p.r);
+    grd.addColorStop(0,   `rgba(${r},${g},${b},${(p.a * pulse).toFixed(3)})`);
+    grd.addColorStop(0.45,`rgba(${r},${g},${b},${(p.a * pulse * 0.32).toFixed(3)})`);
+    grd.addColorStop(1,   'rgba(0,0,0,0)');
+    cx.fillStyle = grd;
+    cx.fillRect(0, 0, W, H);
+  }
+
+  /* 3 ── Band stars */
+  for (const s of bandStars) {
+    const a = s.base * (0.52 + 0.48 * Math.sin(s.ph + T * s.sp));
+    if (a < 0.022) continue;
+    cx.globalAlpha = a;
+    cx.fillStyle = s.col;
+    cx.beginPath();
+    cx.arc(s.x, s.y, s.r, 0, 6.283);
+    cx.fill();
+  }
+
+  /* 4 ── Background stars */
+  for (const s of bgStars) {
+    const a = s.base * (0.48 + 0.52 * Math.sin(s.ph + T * s.sp));
+    cx.globalAlpha = a;
+    cx.fillStyle = s.col;
+    cx.beginPath();
+    cx.arc(s.x, s.y, s.r, 0, 6.283);
+    cx.fill();
+  }
+
+  /* 5 ── Bright stars with halos + spikes */
+  for (const s of brightStars) {
+    const a = s.base * (0.68 + 0.32 * Math.sin(s.ph + T * s.sp));
+
+    /* soft halo */
+    const halo = cx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 5.5);
+    halo.addColorStop(0, s.col);
+    halo.addColorStop(1, 'rgba(0,0,0,0)');
+    cx.globalAlpha = a * 0.26;
+    cx.fillStyle = halo;
+    cx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
+
+    /* core */
+    cx.globalAlpha = a;
+    cx.fillStyle = s.col;
+    cx.beginPath();
+    cx.arc(s.x, s.y, s.r, 0, 6.283);
+    cx.fill();
+
+    /* diffraction spikes */
+    if (s.spike && a > 0.48) {
+      const sp = s.r * 7.5;
+      cx.globalAlpha = a * 0.16;
+      cx.strokeStyle = s.col;
+      cx.lineWidth = 0.5;
+      cx.beginPath();
+      cx.moveTo(s.x - sp, s.y); cx.lineTo(s.x + sp, s.y);
+      cx.moveTo(s.x, s.y - sp); cx.lineTo(s.x, s.y + sp);
+      cx.stroke();
+    }
+  }
+
+  /* 6 ── Shooting star */
+  const now = performance.now();
+  if (!shooter && now > nextShot) {
+    shooter = {
+      x: W * 0.08 + Math.random() * W * 0.62,
+      y: H * 0.04 + Math.random() * H * 0.28,
+      vx: 5.5 + Math.random() * 7.5,
+      vy: 1.5 + Math.random() * 3.2,
+      trail: 88 + Math.random() * 70,
+      life: 0,
+      max:  50 + (Math.random() * 38) | 0
+    };
+  }
+  if (shooter) {
+    shooter.life++;
+    const prog = shooter.life / shooter.max;
+    const fade = Math.sin(prog * Math.PI);
+    const spd  = Math.hypot(shooter.vx, shooter.vy);
+    const x2   = shooter.x + shooter.vx * shooter.life;
+    const y2   = shooter.y + shooter.vy * shooter.life;
+    const x1   = x2 - (shooter.vx / spd) * shooter.trail;
+    const y1   = y2 - (shooter.vy / spd) * shooter.trail;
+
+    const sg = cx.createLinearGradient(x1, y1, x2, y2);
+    sg.addColorStop(0, 'rgba(210,230,255,0)');
+    sg.addColorStop(0.7, `rgba(220,238,255,${(fade * 0.55).toFixed(3)})`);
+    sg.addColorStop(1, `rgba(240,248,255,${(fade * 0.92).toFixed(3)})`);
+
+    cx.globalAlpha = 1;
+    cx.beginPath();
+    cx.moveTo(x1, y1);
+    cx.lineTo(x2, y2);
+    cx.strokeStyle = sg;
+    cx.lineWidth = 1.4;
+    cx.stroke();
+
+    /* tiny head glow */
+    cx.globalAlpha = fade * 0.6;
+    const hg = cx.createRadialGradient(x2, y2, 0, x2, y2, 4);
+    hg.addColorStop(0, 'rgba(240,248,255,1)');
+    hg.addColorStop(1, 'rgba(0,0,0,0)');
+    cx.fillStyle = hg;
+    cx.fillRect(x2-4, y2-4, 8, 8);
+
+    if (shooter.life >= shooter.max) {
+      shooter = null;
+      nextShot = performance.now() + 5000 + Math.random() * 9000;
+    }
+  }
+
+  cx.globalAlpha = 1;
+}
+
+window.addEventListener('resize', resize);
+resize();
+nextShot = performance.now() + 2800;
+frame();
+
+/* ── Card scroll entrance (staggered) ── */
+const cards = document.querySelectorAll('.cs-card');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = [...cards].indexOf(e.target);
+      setTimeout(() => e.target.classList.add('in-view'), i * 90);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.06 });
+cards.forEach(c => obs.observe(c));
+</script>
+
+</body>
+</html>
